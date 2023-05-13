@@ -9,6 +9,7 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/nim65s/pre-commit-config-sort"
 
 [dependencies]
+anyhow = "1.0.71"
 serde = { version = "1.0.163", features = ["derive"] }
 serde_with = "3.0.0"
 serde_yaml = "0.9.21"
