@@ -2,18 +2,18 @@
 
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize)]
-pub struct PreCommitConfig {
-    repos: Vec<Repo>,
-    pub default_install_hook_types: Option<Vec<String>>,
-    pub default_language_version: Option<std::collections::BTreeMap<String, String>>,
-    pub default_stages: Option<Vec<String>>,
-    pub files: Option<String>,
-    pub exclude: Option<String>,
+pub struct PreCommitConfig<'a> {
+    repos: Vec<Repo<'a>>,
+    pub default_install_hook_types: Option<Vec<&'a str>>,
+    pub default_language_version: Option<std::collections::BTreeMap<&'a str, &'a str>>,
+    pub default_stages: Option<Vec<&'a str>>,
+    pub files: Option<&'a str>,
+    pub exclude: Option<&'a str>,
     pub fail_fast: Option<bool>,
-    pub minimum_pre_commit_version: Option<String>,
+    pub minimum_pre_commit_version: Option<&'a str>,
 }
 
-impl PreCommitConfig {
+impl<'a> PreCommitConfig<'a> {
     #[must_use]
     pub const fn new() -> Self {
         Self {
@@ -27,12 +27,12 @@ impl PreCommitConfig {
             minimum_pre_commit_version: None,
         }
     }
-    pub fn add_repo(&mut self, repo: Repo) {
+    pub fn add_repo(&mut self, repo: Repo<'a>) {
         self.repos.push(repo);
     }
 }
 
-impl Default for PreCommitConfig {
+impl Default for PreCommitConfig<'_> {
     fn default() -> Self {
         Self::new()
     }
@@ -40,15 +40,15 @@ impl Default for PreCommitConfig {
 
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize)]
-pub struct Repo {
-    repo: String,
-    rev: String,
-    hooks: Vec<Hook>,
+pub struct Repo<'a> {
+    repo: &'a str,
+    rev: &'a str,
+    hooks: Vec<Hook<'a>>,
 }
 
-impl Repo {
+impl<'a> Repo<'a> {
     #[must_use]
-    pub const fn new(repo: String, rev: String) -> Self {
+    pub const fn new(repo: &'a str, rev: &'a str) -> Self {
         Self {
             repo,
             rev,
@@ -56,34 +56,34 @@ impl Repo {
         }
     }
 
-    pub fn add_hook(&mut self, hook: Hook) {
+    pub fn add_hook(&mut self, hook: Hook<'a>) {
         self.hooks.push(hook);
     }
 }
 
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize)]
-pub struct Hook {
-    id: String,
-    pub alias: Option<String>,
-    pub name: Option<String>,
-    pub language_version: Option<String>,
-    pub files: Option<String>,
-    pub exclude: Option<String>,
-    pub types: Option<String>,
-    pub types_or: Option<String>,
-    pub exclude_types: Option<String>,
-    pub args: Option<String>,
-    pub stages: Option<String>,
-    pub additional_dependencies: Option<String>,
+pub struct Hook<'a> {
+    id: &'a str,
+    pub alias: Option<&'a str>,
+    pub name: Option<&'a str>,
+    pub language_version: Option<&'a str>,
+    pub files: Option<&'a str>,
+    pub exclude: Option<&'a str>,
+    pub types: Option<&'a str>,
+    pub types_or: Option<&'a str>,
+    pub exclude_types: Option<&'a str>,
+    pub args: Option<&'a str>,
+    pub stages: Option<&'a str>,
+    pub additional_dependencies: Option<&'a str>,
     pub always_run: Option<bool>,
     pub verbose: Option<bool>,
-    pub log_file: Option<String>,
+    pub log_file: Option<&'a str>,
 }
 
-impl Hook {
+impl<'a> Hook<'a> {
     #[must_use]
-    pub const fn new(id: String) -> Self {
+    pub const fn new(id: &'a str) -> Self {
         Self {
             id,
             alias: None,

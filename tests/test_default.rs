@@ -5,17 +5,14 @@ use pre_commit_config_sort::{Hook, PreCommitConfig, Repo};
 fn test_example() {
     let mut example = PreCommitConfig::new();
 
-    let mut pre_commit = Repo::new(
-        "https://github.com/pre-commit/pre-commit-hooks".into(),
-        "v2.3.0".into(),
-    );
+    let mut pre_commit = Repo::new("https://github.com/pre-commit/pre-commit-hooks", "v2.3.0");
     for hook in ["check-yaml", "end-of-file-fixer", "trailing-whitespaces"] {
-        pre_commit.add_hook(Hook::new(hook.into()));
+        pre_commit.add_hook(Hook::new(hook));
     }
     example.add_repo(pre_commit);
 
-    let mut black = Repo::new("https://github.com/psf/black".into(), "22.10.0".into());
-    black.add_hook(Hook::new("black".into()));
+    let mut black = Repo::new("https://github.com/psf/black", "22.10.0");
+    black.add_hook(Hook::new("black"));
     example.add_repo(black);
 
     let yaml = indoc! {"
