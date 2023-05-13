@@ -5,14 +5,20 @@ use pre_commit_config_sort::{Hook, PreCommitConfig, Repo};
 fn test_serialize() {
     let mut example = PreCommitConfig::new();
 
-    let mut pre_commit = Repo::new("https://github.com/pre-commit/pre-commit-hooks", "v2.3.0");
+    let mut pre_commit = Repo::new(
+        "https://github.com/pre-commit/pre-commit-hooks".to_string(),
+        "v2.3.0".to_string(),
+    );
     for hook in ["check-yaml", "end-of-file-fixer", "trailing-whitespaces"] {
-        pre_commit.add_hook(Hook::new(hook));
+        pre_commit.add_hook(Hook::new(hook.to_string()));
     }
     example.add_repo(pre_commit);
 
-    let mut black = Repo::new("https://github.com/psf/black", "22.10.0");
-    black.add_hook(Hook::new("black"));
+    let mut black = Repo::new(
+        "https://github.com/psf/black".to_string(),
+        "22.10.0".to_string(),
+    );
+    black.add_hook(Hook::new("black".to_string()));
     example.add_repo(black);
 
     let yaml = indoc! {"
@@ -35,13 +41,19 @@ fn test_serialize() {
 fn test_sort() {
     let mut example = PreCommitConfig::new();
 
-    let mut black = Repo::new("https://github.com/psf/black", "22.10.0");
-    black.add_hook(Hook::new("black"));
+    let mut black = Repo::new(
+        "https://github.com/psf/black".to_string(),
+        "22.10.0".to_string(),
+    );
+    black.add_hook(Hook::new("black".to_string()));
     example.add_repo(black);
 
-    let mut pre_commit = Repo::new("https://github.com/pre-commit/pre-commit-hooks", "v2.3.0");
+    let mut pre_commit = Repo::new(
+        "https://github.com/pre-commit/pre-commit-hooks".to_string(),
+        "v2.3.0".to_string(),
+    );
     for hook in ["end-of-file-fixer", "check-yaml", "trailing-whitespaces"] {
-        pre_commit.add_hook(Hook::new(hook));
+        pre_commit.add_hook(Hook::new(hook.to_string()));
     }
     example.add_repo(pre_commit);
 
@@ -67,14 +79,20 @@ fn test_sort() {
 fn test_deserialize() {
     let mut example = PreCommitConfig::new();
 
-    let mut pre_commit = Repo::new("https://github.com/pre-commit/pre-commit-hooks", "v2.3.0");
+    let mut pre_commit = Repo::new(
+        "https://github.com/pre-commit/pre-commit-hooks".to_string(),
+        "v2.3.0".to_string(),
+    );
     for hook in ["check-yaml", "end-of-file-fixer", "trailing-whitespaces"] {
-        pre_commit.add_hook(Hook::new(hook));
+        pre_commit.add_hook(Hook::new(hook.to_string()));
     }
     example.add_repo(pre_commit);
 
-    let mut black = Repo::new("https://github.com/psf/black", "22.10.0");
-    black.add_hook(Hook::new("black"));
+    let mut black = Repo::new(
+        "https://github.com/psf/black".to_string(),
+        "22.10.0".to_string(),
+    );
+    black.add_hook(Hook::new("black".to_string()));
     example.add_repo(black);
 
     let yaml = indoc! {"

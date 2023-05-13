@@ -4,18 +4,18 @@ use crate::Repo;
 
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd)]
-pub struct PreCommitConfig<'a> {
-    repos: Vec<Repo<'a>>,
-    pub default_install_hook_types: Option<Vec<&'a str>>,
-    pub default_language_version: Option<std::collections::BTreeMap<&'a str, &'a str>>,
-    pub default_stages: Option<Vec<&'a str>>,
-    pub files: Option<&'a str>,
-    pub exclude: Option<&'a str>,
+pub struct PreCommitConfig {
+    repos: Vec<Repo>,
+    pub default_install_hook_types: Option<Vec<String>>,
+    pub default_language_version: Option<std::collections::BTreeMap<String, String>>,
+    pub default_stages: Option<Vec<String>>,
+    pub files: Option<String>,
+    pub exclude: Option<String>,
     pub fail_fast: Option<bool>,
-    pub minimum_pre_commit_version: Option<&'a str>,
+    pub minimum_pre_commit_version: Option<String>,
 }
 
-impl<'a> PreCommitConfig<'a> {
+impl PreCommitConfig {
     #[must_use]
     pub const fn new() -> Self {
         Self {
@@ -30,7 +30,7 @@ impl<'a> PreCommitConfig<'a> {
         }
     }
 
-    pub fn add_repo(&mut self, repo: Repo<'a>) {
+    pub fn add_repo(&mut self, repo: Repo) {
         self.repos.push(repo);
     }
 
@@ -42,7 +42,7 @@ impl<'a> PreCommitConfig<'a> {
     }
 }
 
-impl Default for PreCommitConfig<'_> {
+impl Default for PreCommitConfig {
     fn default() -> Self {
         Self::new()
     }

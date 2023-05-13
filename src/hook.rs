@@ -1,26 +1,26 @@
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd)]
-pub struct Hook<'a> {
-    id: &'a str,
-    pub alias: Option<&'a str>,
-    pub name: Option<&'a str>,
-    pub language_version: Option<&'a str>,
-    pub files: Option<&'a str>,
-    pub exclude: Option<&'a str>,
-    pub types: Option<&'a str>,
-    pub types_or: Option<&'a str>,
-    pub exclude_types: Option<&'a str>,
-    pub args: Option<&'a str>,
-    pub stages: Option<&'a str>,
-    pub additional_dependencies: Option<&'a str>,
+pub struct Hook {
+    id: String,
+    pub alias: Option<String>,
+    pub name: Option<String>,
+    pub language_version: Option<String>,
+    pub files: Option<String>,
+    pub exclude: Option<String>,
+    pub types: Option<String>,
+    pub types_or: Option<String>,
+    pub exclude_types: Option<String>,
+    pub args: Option<String>,
+    pub stages: Option<String>,
+    pub additional_dependencies: Option<String>,
     pub always_run: Option<bool>,
     pub verbose: Option<bool>,
-    pub log_file: Option<&'a str>,
+    pub log_file: Option<String>,
 }
 
-impl<'a> Hook<'a> {
+impl Hook {
     #[must_use]
-    pub const fn new(id: &'a str) -> Self {
+    pub const fn new(id: String) -> Self {
         Self {
             id,
             alias: None,

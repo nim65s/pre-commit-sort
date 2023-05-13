@@ -2,15 +2,15 @@ use crate::Hook;
 
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd)]
-pub struct Repo<'a> {
-    repo: &'a str,
-    rev: &'a str,
-    hooks: Vec<Hook<'a>>,
+pub struct Repo {
+    repo: String,
+    rev: String,
+    hooks: Vec<Hook>,
 }
 
-impl<'a> Repo<'a> {
+impl Repo {
     #[must_use]
-    pub const fn new(repo: &'a str, rev: &'a str) -> Self {
+    pub const fn new(repo: String, rev: String) -> Self {
         Self {
             repo,
             rev,
@@ -18,7 +18,7 @@ impl<'a> Repo<'a> {
         }
     }
 
-    pub fn add_hook(&mut self, hook: Hook<'a>) {
+    pub fn add_hook(&mut self, hook: Hook) {
         self.hooks.push(hook);
     }
 
