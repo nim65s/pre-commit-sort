@@ -1,7 +1,7 @@
 use crate::Hook;
 
 #[serde_with::skip_serializing_none]
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub struct Repo<'a> {
     repo: &'a str,
     rev: &'a str,
@@ -20,5 +20,9 @@ impl<'a> Repo<'a> {
 
     pub fn add_hook(&mut self, hook: Hook<'a>) {
         self.hooks.push(hook);
+    }
+
+    pub fn sort(&mut self) {
+        self.hooks.sort();
     }
 }

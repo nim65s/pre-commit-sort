@@ -1,5 +1,5 @@
 #[serde_with::skip_serializing_none]
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub struct Hook<'a> {
     id: &'a str,
     pub alias: Option<&'a str>,

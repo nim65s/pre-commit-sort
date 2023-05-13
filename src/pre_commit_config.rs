@@ -3,7 +3,7 @@ use crate::Repo;
 /// ref. https://pre-commit.com/#pre-commit-configyaml---top-level
 
 #[serde_with::skip_serializing_none]
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub struct PreCommitConfig<'a> {
     repos: Vec<Repo<'a>>,
     pub default_install_hook_types: Option<Vec<&'a str>>,
@@ -29,8 +29,16 @@ impl<'a> PreCommitConfig<'a> {
             minimum_pre_commit_version: None,
         }
     }
+
     pub fn add_repo(&mut self, repo: Repo<'a>) {
         self.repos.push(repo);
+    }
+
+    pub fn sort(&mut self) {
+        for repo in &mut self.repos {
+            repo.sort();
+        }
+        self.repos.sort();
     }
 }
 
