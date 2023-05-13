@@ -14,7 +14,8 @@ pub struct PreCommitConfig {
 }
 
 impl PreCommitConfig {
-    pub fn new() -> Self {
+    #[must_use]
+    pub const fn new() -> Self {
         Self {
             repos: Vec::new(),
             default_install_hook_types: None,
@@ -31,6 +32,12 @@ impl PreCommitConfig {
     }
 }
 
+impl Default for PreCommitConfig {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize)]
 pub struct Repo {
@@ -40,7 +47,8 @@ pub struct Repo {
 }
 
 impl Repo {
-    pub fn new(repo: String, rev: String) -> Self {
+    #[must_use]
+    pub const fn new(repo: String, rev: String) -> Self {
         Self {
             repo,
             rev,
@@ -74,7 +82,8 @@ pub struct Hook {
 }
 
 impl Hook {
-    pub fn new(id: String) -> Self {
+    #[must_use]
+    pub const fn new(id: String) -> Self {
         Self {
             id,
             alias: None,
