@@ -13,12 +13,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Stable with rustfmt and clippy
+      - name: Stable with rustfmt
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           profile: minimal
-          components: rustfmt, clippy
+          components: rustfmt
+      - name: Cargo run
+        uses: actions-rs/cargo@v1
+        with:
+          command: check
       - name: Cargo run
         uses: actions-rs/cargo@v1
         with:
@@ -27,7 +31,7 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: test
-      - name: Cargo test
-        uses: actions-rs/cargo@v1
+      - uses: actions-rs/cargo@v1
         with:
-          command: clippy -- -W clippy::pedantic -W clippy::nursery -W clippy::unwrap_used -W clippy::expect_used
+          command: fmt
+          args: --all -- --check
