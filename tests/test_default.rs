@@ -110,3 +110,42 @@ fn test_deserialize() {
         "};
     assert_eq!(example, serde_yaml::from_str(yaml).unwrap());
 }
+
+#[test]
+fn test_dedup() {
+    let mut example = PreCommitConfig::new();
+
+    let mut pre_commit = Repo::new(
+        "https://github.com/pre-commit/pre-commit-hooks".to_string(),
+        "v2.3.0".to_string(),
+    );
+    for hook in ["check-yaml", "end-of-file-fixer", "trailing-whitespaces"] {
+        pre_commit.add_hook(Hook::new(hook.to_string()));
+    }
+    example.add_repo(pre_commit);
+
+    let mut black = Repo::new(
+        "https://github.com/psf/black".to_string(),
+        "22.10.0".to_string(),
+    );
+    black.add_hook(Hook::new("black".to_string()));
+    example.add_repo(black.clone());
+    example.add_repo(black);
+
+    let yaml = indoc! {"
+        repos:
+        - repo: https://github.com/pre-commit/pre-commit-hooks
+          rev: v2.3.0
+          hooks:
+          - id: check-yaml
+          - id: end-of-file-fixer
+          - id: trailing-whitespaces
+        - repo: https://github.com/psf/black
+          rev: 22.10.0
+          hooks:
+          - id: black
+        "};
+    assert_ne!(serde_yaml::to_string(&example).unwrap(), yaml);
+    example.sort();
+    assert_eq!(serde_yaml::to_string(&example).unwrap(), yaml);
+}

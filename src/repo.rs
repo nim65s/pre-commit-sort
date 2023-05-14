@@ -1,9 +1,8 @@
 /// ref. <https://pre-commit.com/#pre-commit-configyaml---repos>
-
 use crate::Hook;
 
 #[serde_with::skip_serializing_none]
-#[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd)]
+#[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd, Clone)]
 pub struct Repo {
     repo: String,
     rev: String,
@@ -26,5 +25,6 @@ impl Repo {
 
     pub fn sort(&mut self) {
         self.hooks.sort();
+        self.hooks.dedup();
     }
 }

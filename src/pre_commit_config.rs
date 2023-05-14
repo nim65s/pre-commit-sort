@@ -7,7 +7,7 @@ use crate::{Repo, Result, CI};
 pub static PRE_COMMIT_CONFIG_PATH: &str = ".pre-commit-config.yaml";
 
 #[serde_with::skip_serializing_none]
-#[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd)]
+#[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd, Clone)]
 pub struct PreCommitConfig {
     ci: Option<CI>,
     repos: Vec<Repo>,
@@ -55,6 +55,7 @@ impl PreCommitConfig {
             repo.sort();
         }
         self.repos.sort();
+        self.repos.dedup();
     }
 }
 

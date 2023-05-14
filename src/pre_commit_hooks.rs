@@ -6,7 +6,7 @@ use crate::Result;
 pub static PRE_COMMIT_HOOKS_PATH: &str = ".pre-commit-hooks.yaml";
 
 #[serde_with::skip_serializing_none]
-#[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd)]
+#[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd, Clone)]
 pub struct PreCommitHooks {
     id: String,
     name: String,
