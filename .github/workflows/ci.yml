@@ -1,7 +1,11 @@
 name: CI
 
 on:
+  push:
   pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
 
 jobs:
   ci:
@@ -15,11 +19,6 @@ jobs:
           toolchain: stable
           profile: minimal
           components: rustfmt, clippy
-      - name: Annotate commit with clippy warnings
-        uses: actions-rs/clippy-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          args: -- -W clippy::pedantic -W clippy::nursery -W clippy::unwrap_used -W clippy::expect_used
       - name: Cargo run
         uses: actions-rs/cargo@v1
         with:
@@ -28,3 +27,7 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: test
+      - name: Cargo test
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy -- -W clippy::pedantic -W clippy::nursery -W clippy::unwrap_used -W clippy::expect_used
