@@ -8,8 +8,8 @@ use pre_commit_sort::{
 fn main() -> anyhow::Result<()> {
     if Path::new(PRE_COMMIT_CONFIG_PATH).exists() {
         let mut pre_commit_config = PreCommitConfig::read()?;
-        pre_commit_config.sort();
         pre_commit_config.install();
+        pre_commit_config.sort();
         pre_commit_config.write()?;
     }
     if Path::new(PRE_COMMIT_HOOKS_PATH).exists() {

@@ -3,6 +3,10 @@ repos:
   rev: v0.0.1
   hooks:
   - id: pre-commit-sort
+- repo: https://github.com/nim65s/pre-commit-sort
+  rev: v0.0.2
+  hooks:
+  - id: pre-commit-sort
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v4.4.0
   hooks:
@@ -21,3 +25,7 @@ repos:
   - id: fix-byte-order-marker
   - id: mixed-line-ending
   - id: trailing-whitespace
+- repo: https://github.com/nim65s/pre-commit-sort
+  rev: 0.0.2
+  hooks:
+  - id: pre-commit-sort
