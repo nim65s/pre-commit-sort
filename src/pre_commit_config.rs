@@ -57,6 +57,23 @@ impl PreCommitConfig {
         }
         self.repos.sort();
         self.repos.dedup();
+        self.dedup_rev();
+    }
+
+    /// If two repos differ only by their rev, keep only the latest
+    fn dedup_rev(&mut self) {
+        while let Some(i) = self.find_first_rev_dup() {
+            self.repos.remove(i);
+        }
+    }
+
+    fn find_first_rev_dup(&self) -> Option<usize> {
+        for (i, w) in self.repos.windows(2).enumerate() {
+            if w[0].equal_but_rev(&w[1]) {
+                return Some(i);
+            }
+        }
+        None
     }
 
     /// Install pre-commit-sort in this .pre-commit-config.yaml

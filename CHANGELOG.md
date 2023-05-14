@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+- Implement deduplication for repos with different revisions
+
 ## [0.0.4] - 2023-05-14
 
 - Create this CHANGELOG.md

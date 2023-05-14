@@ -27,4 +27,8 @@ impl Repo {
         self.hooks.sort();
         self.hooks.dedup();
     }
+
+    pub fn equal_but_rev(&self, other: &Repo) -> bool {
+        self.repo == other.repo && self.hooks == other.hooks
+    }
 }

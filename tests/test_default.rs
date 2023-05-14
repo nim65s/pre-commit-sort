@@ -3,6 +3,7 @@ use pre_commit_sort::{Hook, PreCommitConfig, Repo};
 
 #[test]
 fn test_serialize() {
+    // Just test the serialization with an example .pre-commit-config.yaml
     let mut example = PreCommitConfig::new();
 
     let mut pre_commit = Repo::new(
@@ -41,6 +42,7 @@ fn test_serialize() {
 fn test_sort() {
     let mut example = PreCommitConfig::new();
 
+    // psf/black is added before pre-commit/pre-commit, but it should be put at the end on .sort()
     let mut black = Repo::new(
         "https://github.com/psf/black".to_string(),
         "22.10.0".to_string(),
@@ -77,6 +79,7 @@ fn test_sort() {
 
 #[test]
 fn test_deserialize() {
+    // Just test the deserialization with an example .pre-commit-config.yaml
     let mut example = PreCommitConfig::new();
 
     let mut pre_commit = Repo::new(
@@ -129,6 +132,7 @@ fn test_dedup() {
         "22.10.0".to_string(),
     );
     black.add_hook(Hook::new("black".to_string()));
+    // Add black twice. The second should be removed after .sort()
     example.add_repo(black.clone());
     example.add_repo(black);
 
@@ -170,6 +174,7 @@ fn test_install() {
     black.add_hook(Hook::new("black".to_string()));
     example.add_repo(black);
 
+    // This should add pre-commit-sort to the repos list
     example.install();
 
     const VERSION: &str = env!("CARGO_PKG_VERSION");
@@ -192,5 +197,52 @@ fn test_install() {
           hooks:
           - id: {NAME}
         "};
+    assert_eq!(serde_yaml::to_string(&example).unwrap(), yaml);
+}
+
+#[test]
+fn test_dedup_rev() {
+    let mut example = PreCommitConfig::new();
+
+    let mut pre_commit = Repo::new(
+        "https://github.com/pre-commit/pre-commit-hooks".to_string(),
+        "v2.3.0".to_string(),
+    );
+    for hook in ["check-yaml", "end-of-file-fixer", "trailing-whitespaces"] {
+        pre_commit.add_hook(Hook::new(hook.to_string()));
+    }
+    example.add_repo(pre_commit);
+
+    let mut black = Repo::new(
+        "https://github.com/psf/black".to_string(),
+        "22.10.0".to_string(),
+    );
+    black.add_hook(Hook::new("black".to_string()));
+    example.add_repo(black);
+
+    // Add another black, but on a older version
+    // This one should be cleaned out after the .sort() call
+    let mut black = Repo::new(
+        "https://github.com/psf/black".to_string(),
+        "20.1.0".to_string(),
+    );
+    black.add_hook(Hook::new("black".to_string()));
+    example.add_repo(black);
+
+    let yaml = indoc! {"
+        repos:
+        - repo: https://github.com/pre-commit/pre-commit-hooks
+          rev: v2.3.0
+          hooks:
+          - id: check-yaml
+          - id: end-of-file-fixer
+          - id: trailing-whitespaces
+        - repo: https://github.com/psf/black
+          rev: 22.10.0
+          hooks:
+          - id: black
+        "};
+    assert_ne!(serde_yaml::to_string(&example).unwrap(), yaml);
+    example.sort();
     assert_eq!(serde_yaml::to_string(&example).unwrap(), yaml);
 }
