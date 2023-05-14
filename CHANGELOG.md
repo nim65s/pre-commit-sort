@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] - ReleaseDate
 
 - Implement deduplication for repos with different revisions
+- fix CI and release
+- update rev in README
 
 ## [0.0.4] - 2023-05-14
 
