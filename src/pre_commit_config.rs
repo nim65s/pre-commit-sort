@@ -1,5 +1,4 @@
 /// ref. <https://pre-commit.com/#pre-commit-configyaml---top-level>
-
 use std::fs::File;
 
 use crate::{Repo, Result};
@@ -40,7 +39,7 @@ impl PreCommitConfig {
     }
 
     pub fn write(&self) -> Result<()> {
-        let output = File::open(PATH)?;
+        let output = File::create(PATH)?;
         Ok(serde_yaml::to_writer(output, &self)?)
     }
 
