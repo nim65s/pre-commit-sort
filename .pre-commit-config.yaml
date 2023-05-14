@@ -25,7 +25,3 @@ repos:
   - id: fix-byte-order-marker
   - id: mixed-line-ending
   - id: trailing-whitespace
-- repo: https://github.com/nim65s/pre-commit-sort
-  rev: 0.0.2
-  hooks:
-  - id: pre-commit-sort
