@@ -2,9 +2,10 @@
 use std::collections::BTreeMap;
 use std::fs::File;
 
-use crate::{Repo, Result, CI};
+use crate::{Hook, Repo, Result, CI};
 
 pub static PRE_COMMIT_CONFIG_PATH: &str = ".pre-commit-config.yaml";
+pub static PRE_COMMIT_SORT: &str = "https://github.com/nim65s/pre-commit-sort";
 
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd, Clone)]
@@ -50,12 +51,22 @@ impl PreCommitConfig {
         self.repos.push(repo);
     }
 
+    /// Sort and deduplicate repos and their hooks
     pub fn sort(&mut self) {
         for repo in &mut self.repos {
             repo.sort();
         }
         self.repos.sort();
         self.repos.dedup();
+    }
+
+    /// Install pre-commit-sort in this .pre-commit-config.yaml
+    pub fn install(&mut self) {
+        const VERSION: &str = env!("CARGO_PKG_VERSION");
+        let mut repo = Repo::new(PRE_COMMIT_SORT.to_string(), VERSION.to_string());
+        let hook = Hook::new("pre-commit-sort".to_string());
+        repo.add_hook(hook);
+        self.add_repo(repo);
     }
 }
 
