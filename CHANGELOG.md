@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+## [0.0.5] - 2023-05-14
+
 - Implement deduplication for repos with different revisions
 - fix CI and release
 - update rev in README
@@ -21,7 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v0.0.1] - 2023-05-14
 
 <!-- next-url -->
-[Unreleased]: https://github.com/assert-rs/predicates-rs/compare/v0.0.4...HEAD
+[Unreleased]: https://github.com/assert-rs/predicates-rs/compare/v0.0.5...HEAD
+[0.0.5]: https://github.com/assert-rs/predicates-rs/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/nim65s/pre-commit-sort/compare/v0.0.2...v0.0.4
 [v0.0.2]: https://github.com/nim65s/pre-commit-sort/compare/v0.0.1...v0.0.2
 [v0.0.1]: https://github.com/nim65s/pre-commit-sort/releases/tag/v0.0.1
