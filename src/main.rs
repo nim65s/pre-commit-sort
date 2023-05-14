@@ -1,23 +1,12 @@
-/*
-use std::fs::File;
-use std::io::{BufRead, BufReader, Error, Write};
 use std::path::Path;
 
-use pre_commit_config_sort::PreCommitConfig;
-*/
+use pre_commit_config_sort::{PreCommitConfig, PATH};
 
 fn main() -> anyhow::Result<()> {
-    let _path = ".pre-commit-config.yaml";
-
-    /*
-    if Path::new(path).exists() {
+    if Path::new(PATH).exists() {
         println!("file exist");
-        let input = File::open(path)?;
-        //let mut data: PreCommitConfig = serde_yaml::from_reader(input)?;
+        let mut data = PreCommitConfig::read()?;
         data.sort();
-        let input = File::open(path)?;
-        serde_yaml::to_writer(input, &data)?;
     }
-    */
     Ok(())
 }

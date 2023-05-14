@@ -1,3 +1,5 @@
+/// ref. <https://pre-commit.com/#pre-commit-configyaml---repos>
+
 use crate::Hook;
 
 #[serde_with::skip_serializing_none]
