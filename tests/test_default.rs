@@ -173,6 +173,8 @@ fn test_install() {
     example.install();
 
     const VERSION: &str = env!("CARGO_PKG_VERSION");
+    const REPO: &str = env!("CARGO_PKG_REPOSITORY");
+    const NAME: &str = env!("CARGO_PKG_NAME");
     let yaml = formatdoc! {"
         repos:
         - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -185,10 +187,10 @@ fn test_install() {
           rev: 22.10.0
           hooks:
           - id: black
-        - repo: https://github.com/nim65s/pre-commit-sort
+        - repo: {REPO}
           rev: {VERSION}
           hooks:
-          - id: pre-commit-sort
+          - id: {NAME}
         "};
     assert_eq!(serde_yaml::to_string(&example).unwrap(), yaml);
 }

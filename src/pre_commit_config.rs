@@ -5,7 +5,6 @@ use std::fs::File;
 use crate::{Hook, Repo, Result, CI};
 
 pub static PRE_COMMIT_CONFIG_PATH: &str = ".pre-commit-config.yaml";
-pub static PRE_COMMIT_SORT: &str = "https://github.com/nim65s/pre-commit-sort";
 
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd, Clone)]
@@ -62,9 +61,11 @@ impl PreCommitConfig {
 
     /// Install pre-commit-sort in this .pre-commit-config.yaml
     pub fn install(&mut self) {
-        const VERSION: &str = env!("CARGO_PKG_VERSION");
-        let mut repo = Repo::new(PRE_COMMIT_SORT.to_string(), VERSION.to_string());
-        let hook = Hook::new("pre-commit-sort".to_string());
+        let mut repo = Repo::new(
+            env!("CARGO_PKG_REPOSITORY").to_string(),
+            env!("CARGO_PKG_VERSION").to_string(),
+        );
+        let hook = Hook::new(env!("CARGO_PKG_NAME").to_string());
         repo.add_hook(hook);
         self.add_repo(repo);
     }
