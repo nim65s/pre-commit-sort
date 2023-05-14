@@ -2,13 +2,14 @@
 use std::collections::BTreeMap;
 use std::fs::File;
 
-use crate::{Repo, Result};
+use crate::{Repo, Result, CI};
 
 pub static PRE_COMMIT_CONFIG_PATH: &str = ".pre-commit-config.yaml";
 
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub struct PreCommitConfig {
+    ci: Option<CI>,
     repos: Vec<Repo>,
     default_install_hook_types: Option<Vec<String>>,
     default_language_version: Option<BTreeMap<String, String>>,
@@ -23,6 +24,7 @@ impl PreCommitConfig {
     #[must_use]
     pub const fn new() -> Self {
         Self {
+            ci: None,
             repos: Vec::new(),
             default_install_hook_types: None,
             default_language_version: None,
