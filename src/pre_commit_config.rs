@@ -61,9 +61,10 @@ impl PreCommitConfig {
 
     /// Install pre-commit-sort in this .pre-commit-config.yaml
     pub fn install(&mut self) {
+        const VERSION: &str = env!("CARGO_PKG_VERSION");
         let mut repo = Repo::new(
             env!("CARGO_PKG_REPOSITORY").to_string(),
-            env!("CARGO_PKG_VERSION").to_string(),
+            format!("v{VERSION}"),
         );
         let hook = Hook::new(env!("CARGO_PKG_NAME").to_string());
         repo.add_hook(hook);

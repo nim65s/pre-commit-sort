@@ -188,7 +188,7 @@ fn test_install() {
           hooks:
           - id: black
         - repo: {REPO}
-          rev: {VERSION}
+          rev: v{VERSION}
           hooks:
           - id: {NAME}
         "};
