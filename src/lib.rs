@@ -1,3 +1,5 @@
+#![allow(clippy::missing_errors_doc)]
+
 mod ci;
 mod error;
 mod hook;
