@@ -2,7 +2,7 @@
   name: Sort pre-commit files
   entry: pre-commit-sort
   language: rust
-  files: ^.pre-commit-{config,hooks}.yaml$
+  files: ^.pre-commit-(config|hooks).yaml$
   types:
   - text
   description: Sort .pre-commit-config.yaml & .pre-commit-hooks.yaml
