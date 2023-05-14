@@ -1,4 +1,5 @@
 /// ref. <https://pre-commit.com/#pre-commit-configyaml---top-level>
+use std::collections::BTreeMap;
 use std::fs::File;
 
 use crate::{Repo, Result};
@@ -10,7 +11,7 @@ pub static PATH: &str = ".pre-commit-config.yaml";
 pub struct PreCommitConfig {
     repos: Vec<Repo>,
     default_install_hook_types: Option<Vec<String>>,
-    default_language_version: Option<std::collections::BTreeMap<String, String>>,
+    default_language_version: Option<BTreeMap<String, String>>,
     default_stages: Option<Vec<String>>,
     files: Option<String>,
     exclude: Option<String>,
