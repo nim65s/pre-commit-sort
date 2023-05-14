@@ -13,3 +13,11 @@ Rust validation, sort, deduplication and formatting for `.pre-commit-config.yaml
 ```
 
 (or directly run the `pre-commit-sort` command if you already have it somewhere)
+
+## Installation
+
+pre-commit will install this project automatically for you, but if you need a standalone version:
+
+```
+cargo binstall pre-commit-sort
+```
