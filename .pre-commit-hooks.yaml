@@ -1,7 +1,8 @@
--   id: pre-commit-config-sort
-    name: Sort .pre-commit-config.yaml
-    description: 'Sort .pre-commit-config.yaml'
-    entry: pre-commit-config-sort
-    language: rust
-    types: [text]
-    files: '^.pre-commit-config.yaml$'
+- id: pre-commit-sort
+  name: Sort pre-commit files
+  entry: pre-commit-sort
+  language: rust
+  files: ^.pre-commit-{config,hooks}.yaml$
+  types:
+  - text
+  description: Sort .pre-commit-config.yaml & .pre-commit-hooks.yaml

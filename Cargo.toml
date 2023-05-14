@@ -1,12 +1,12 @@
 [package]
-name = "pre-commit-config-sort"
+name = "pre-commit-sort"
 version = "0.1.0"
 edition = "2021"
 authors = ["Guilhem Saurel <guilhem.saurel@laas.fr>"]
-description = "Sort .pre-commit-config.yaml file"
+description = "Sort pre-commit files"
 keywords = ["yaml", "serde", "serialization", "ci", "pre-commit"]
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/nim65s/pre-commit-config-sort"
+repository = "https://github.com/nim65s/pre-commit-sort"
 
 [dependencies]
 anyhow = "1.0.71"

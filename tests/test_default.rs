@@ -1,5 +1,5 @@
 use indoc::indoc;
-use pre_commit_config_sort::{Hook, PreCommitConfig, Repo};
+use pre_commit_sort::{Hook, PreCommitConfig, Repo};
 
 #[test]
 fn test_serialize() {

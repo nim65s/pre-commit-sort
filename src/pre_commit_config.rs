@@ -4,7 +4,7 @@ use std::fs::File;
 
 use crate::{Repo, Result};
 
-pub static PATH: &str = ".pre-commit-config.yaml";
+pub static PRE_COMMIT_CONFIG_PATH: &str = ".pre-commit-config.yaml";
 
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd)]
@@ -35,12 +35,12 @@ impl PreCommitConfig {
     }
 
     pub fn read() -> Result<Self> {
-        let input = File::open(PATH)?;
+        let input = File::open(PRE_COMMIT_CONFIG_PATH)?;
         Ok(serde_yaml::from_reader(input)?)
     }
 
     pub fn write(&self) -> Result<()> {
-        let output = File::create(PATH)?;
+        let output = File::create(PRE_COMMIT_CONFIG_PATH)?;
         Ok(serde_yaml::to_writer(output, &self)?)
     }
 
