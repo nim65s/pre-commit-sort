@@ -1,4 +1,4 @@
-use indoc::indoc;
+use indoc::{formatdoc, indoc};
 use pre_commit_sort::{Hook, PreCommitConfig, Repo};
 
 #[test]
@@ -172,7 +172,8 @@ fn test_install() {
 
     example.install();
 
-    let yaml = indoc! {"
+    const VERSION: &str = env!("CARGO_PKG_VERSION");
+    let yaml = formatdoc! {"
         repos:
         - repo: https://github.com/pre-commit/pre-commit-hooks
           rev: v2.3.0
@@ -185,7 +186,7 @@ fn test_install() {
           hooks:
           - id: black
         - repo: https://github.com/nim65s/pre-commit-sort
-          rev: 0.1.0
+          rev: {VERSION}
           hooks:
           - id: pre-commit-sort
         "};
