@@ -9,13 +9,13 @@ pub static PATH: &str = ".pre-commit-config.yaml";
 #[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub struct PreCommitConfig {
     repos: Vec<Repo>,
-    pub default_install_hook_types: Option<Vec<String>>,
-    pub default_language_version: Option<std::collections::BTreeMap<String, String>>,
-    pub default_stages: Option<Vec<String>>,
-    pub files: Option<String>,
-    pub exclude: Option<String>,
-    pub fail_fast: Option<bool>,
-    pub minimum_pre_commit_version: Option<String>,
+    default_install_hook_types: Option<Vec<String>>,
+    default_language_version: Option<std::collections::BTreeMap<String, String>>,
+    default_stages: Option<Vec<String>>,
+    files: Option<String>,
+    exclude: Option<String>,
+    fail_fast: Option<bool>,
+    minimum_pre_commit_version: Option<String>,
 }
 
 impl PreCommitConfig {
