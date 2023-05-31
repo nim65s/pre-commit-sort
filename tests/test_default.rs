@@ -1,5 +1,5 @@
 use indoc::{formatdoc, indoc};
-use pre_commit_sort::{ConfigHook, PreCommitConfig, Remote};
+use pre_commit_sort::{ConfigHook, DeclareHook, Local, PreCommitConfig, Remote};
 
 #[test]
 fn test_serialize() {
@@ -264,11 +264,39 @@ fn test_local() {
           - id: black
         - repo: local
           hooks:
-          - id: just-all
-            name: just-all
-            entry: just all
+          - id: some-id
+            name: some-name
+            entry: some entry
             language: rust
-            pass_filenames: false
         "};
-    let _: PreCommitConfig = serde_yaml::from_str(yaml).unwrap();
+    let mut example = PreCommitConfig::new();
+
+    let mut pre_commit = Remote::new(
+        "https://github.com/pre-commit/pre-commit-hooks".to_string(),
+        "v2.3.0".to_string(),
+    );
+    for hook in ["check-yaml", "end-of-file-fixer", "trailing-whitespaces"] {
+        pre_commit.add_hook(ConfigHook::new(hook.to_string()));
+    }
+    example.add_remote(pre_commit);
+
+    let mut black = Remote::new(
+        "https://github.com/psf/black".to_string(),
+        "22.10.0".to_string(),
+    );
+    black.add_hook(ConfigHook::new("black".to_string()));
+    example.add_remote(black);
+
+    let mut local = Local::new();
+    let hook = DeclareHook::new(
+        "some-id".to_string(),
+        "some-name".to_string(),
+        "some entry".to_string(),
+        "rust".to_string(),
+    );
+    local.add_hook(hook);
+    example.add_local(local);
+
+    assert_eq!(serde_yaml::to_string(&example).unwrap(), yaml);
+    assert_eq!(example, serde_yaml::from_str(yaml).unwrap());
 }
