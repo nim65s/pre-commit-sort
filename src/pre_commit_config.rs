@@ -33,8 +33,8 @@ impl PreCommitConfig {
         }
     }
 
-    pub fn add_repo(&mut self, repo: Repo) {
-        self.repos.push(repo);
+    pub fn add_remote(&mut self, remote: Remote) {
+        self.repos.push(Repo::Remote(remote));
     }
 
     /// Sort and deduplicate repos and their hooks
@@ -73,7 +73,7 @@ impl PreCommitConfig {
         );
         let hook = ConfigHook::new(env!("CARGO_PKG_NAME").to_string());
         remote.add_hook(hook);
-        self.add_repo(Repo::Remote(remote));
+        self.add_remote(remote);
     }
 }
 

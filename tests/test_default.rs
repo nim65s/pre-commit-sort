@@ -1,26 +1,26 @@
 use indoc::{formatdoc, indoc};
-use pre_commit_sort::{ConfigHook, PreCommitConfig, Repo};
+use pre_commit_sort::{ConfigHook, PreCommitConfig, Remote};
 
 #[test]
 fn test_serialize() {
     // Just test the serialization with an example .pre-commit-config.yaml
     let mut example = PreCommitConfig::new();
 
-    let mut pre_commit = Repo::new(
+    let mut pre_commit = Remote::new(
         "https://github.com/pre-commit/pre-commit-hooks".to_string(),
         "v2.3.0".to_string(),
     );
     for hook in ["check-yaml", "end-of-file-fixer", "trailing-whitespaces"] {
         pre_commit.add_hook(ConfigHook::new(hook.to_string()));
     }
-    example.add_repo(pre_commit);
+    example.add_remote(pre_commit);
 
-    let mut black = Repo::new(
+    let mut black = Remote::new(
         "https://github.com/psf/black".to_string(),
         "22.10.0".to_string(),
     );
     black.add_hook(ConfigHook::new("black".to_string()));
-    example.add_repo(black);
+    example.add_remote(black);
 
     let yaml = indoc! {"
         repos:
@@ -43,21 +43,21 @@ fn test_sort() {
     let mut example = PreCommitConfig::new();
 
     // psf/black is added before pre-commit/pre-commit, but it should be put at the end on .sort()
-    let mut black = Repo::new(
+    let mut black = Remote::new(
         "https://github.com/psf/black".to_string(),
         "22.10.0".to_string(),
     );
     black.add_hook(ConfigHook::new("black".to_string()));
-    example.add_repo(black);
+    example.add_remote(black);
 
-    let mut pre_commit = Repo::new(
+    let mut pre_commit = Remote::new(
         "https://github.com/pre-commit/pre-commit-hooks".to_string(),
         "v2.3.0".to_string(),
     );
     for hook in ["end-of-file-fixer", "check-yaml", "trailing-whitespaces"] {
         pre_commit.add_hook(ConfigHook::new(hook.to_string()));
     }
-    example.add_repo(pre_commit);
+    example.add_remote(pre_commit);
 
     let yaml = indoc! {"
         repos:
@@ -82,21 +82,21 @@ fn test_deserialize() {
     // Just test the deserialization with an example .pre-commit-config.yaml
     let mut example = PreCommitConfig::new();
 
-    let mut pre_commit = Repo::new(
+    let mut pre_commit = Remote::new(
         "https://github.com/pre-commit/pre-commit-hooks".to_string(),
         "v2.3.0".to_string(),
     );
     for hook in ["check-yaml", "end-of-file-fixer", "trailing-whitespaces"] {
         pre_commit.add_hook(ConfigHook::new(hook.to_string()));
     }
-    example.add_repo(pre_commit);
+    example.add_remote(pre_commit);
 
-    let mut black = Repo::new(
+    let mut black = Remote::new(
         "https://github.com/psf/black".to_string(),
         "22.10.0".to_string(),
     );
     black.add_hook(ConfigHook::new("black".to_string()));
-    example.add_repo(black);
+    example.add_remote(black);
 
     let yaml = indoc! {"
         repos:
@@ -118,23 +118,23 @@ fn test_deserialize() {
 fn test_dedup() {
     let mut example = PreCommitConfig::new();
 
-    let mut pre_commit = Repo::new(
+    let mut pre_commit = Remote::new(
         "https://github.com/pre-commit/pre-commit-hooks".to_string(),
         "v2.3.0".to_string(),
     );
     for hook in ["check-yaml", "end-of-file-fixer", "trailing-whitespaces"] {
         pre_commit.add_hook(ConfigHook::new(hook.to_string()));
     }
-    example.add_repo(pre_commit);
+    example.add_remote(pre_commit);
 
-    let mut black = Repo::new(
+    let mut black = Remote::new(
         "https://github.com/psf/black".to_string(),
         "22.10.0".to_string(),
     );
     black.add_hook(ConfigHook::new("black".to_string()));
     // Add black twice. The second should be removed after .sort()
-    example.add_repo(black.clone());
-    example.add_repo(black);
+    example.add_remote(black.clone());
+    example.add_remote(black);
 
     let yaml = indoc! {"
         repos:
@@ -158,21 +158,21 @@ fn test_dedup() {
 fn test_install() {
     let mut example = PreCommitConfig::new();
 
-    let mut pre_commit = Repo::new(
+    let mut pre_commit = Remote::new(
         "https://github.com/pre-commit/pre-commit-hooks".to_string(),
         "v2.3.0".to_string(),
     );
     for hook in ["check-yaml", "end-of-file-fixer", "trailing-whitespaces"] {
         pre_commit.add_hook(ConfigHook::new(hook.to_string()));
     }
-    example.add_repo(pre_commit);
+    example.add_remote(pre_commit);
 
-    let mut black = Repo::new(
+    let mut black = Remote::new(
         "https://github.com/psf/black".to_string(),
         "22.10.0".to_string(),
     );
     black.add_hook(ConfigHook::new("black".to_string()));
-    example.add_repo(black);
+    example.add_remote(black);
 
     // This should add pre-commit-sort to the repos list
     example.install();
@@ -204,30 +204,30 @@ fn test_install() {
 fn test_dedup_rev() {
     let mut example = PreCommitConfig::new();
 
-    let mut pre_commit = Repo::new(
+    let mut pre_commit = Remote::new(
         "https://github.com/pre-commit/pre-commit-hooks".to_string(),
         "v2.3.0".to_string(),
     );
     for hook in ["check-yaml", "end-of-file-fixer", "trailing-whitespaces"] {
         pre_commit.add_hook(ConfigHook::new(hook.to_string()));
     }
-    example.add_repo(pre_commit);
+    example.add_remote(pre_commit);
 
-    let mut black = Repo::new(
+    let mut black = Remote::new(
         "https://github.com/psf/black".to_string(),
         "22.10.0".to_string(),
     );
     black.add_hook(ConfigHook::new("black".to_string()));
-    example.add_repo(black);
+    example.add_remote(black);
 
     // Add another black, but on a older version
     // This one should be cleaned out after the .sort() call
-    let mut black = Repo::new(
+    let mut black = Remote::new(
         "https://github.com/psf/black".to_string(),
         "20.1.0".to_string(),
     );
     black.add_hook(ConfigHook::new("black".to_string()));
-    example.add_repo(black);
+    example.add_remote(black);
 
     let yaml = indoc! {"
         repos:
