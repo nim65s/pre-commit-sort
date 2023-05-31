@@ -8,6 +8,7 @@ mod local;
 mod pre_commit;
 mod pre_commit_config;
 mod pre_commit_hooks;
+mod remote;
 mod repo;
 
 pub use ci::*;
@@ -18,4 +19,5 @@ pub use local::*;
 pub use pre_commit::*;
 pub use pre_commit_config::*;
 pub use pre_commit_hooks::*;
+pub use remote::*;
 pub use repo::*;

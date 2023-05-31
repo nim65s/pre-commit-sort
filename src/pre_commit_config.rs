@@ -1,13 +1,12 @@
 /// ref. <https://pre-commit.com/#pre-commit-configyaml---top-level>
 use std::collections::BTreeMap;
 
-use crate::{ConfigHook, Local, PreCommit, Repo, CI};
+use crate::{ConfigHook, PreCommit, Remote, Repo, CI};
 
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd, Clone)]
 pub struct PreCommitConfig {
     ci: Option<CI>,
-    local: Option<Local>,
     repos: Vec<Repo>,
     default_install_hook_types: Option<Vec<String>>,
     default_language_version: Option<BTreeMap<String, String>>,
@@ -23,7 +22,6 @@ impl PreCommitConfig {
     pub const fn new() -> Self {
         Self {
             ci: None,
-            local: None,
             repos: Vec::new(),
             default_install_hook_types: None,
             default_language_version: None,
@@ -68,13 +66,13 @@ impl PreCommitConfig {
     /// Install pre-commit-sort in this .pre-commit-config.yaml
     pub fn install(&mut self) {
         const VERSION: &str = env!("CARGO_PKG_VERSION");
-        let mut repo = Repo::new(
+        let mut remote = Remote::new(
             env!("CARGO_PKG_REPOSITORY").to_string(),
             format!("v{VERSION}"),
         );
         let hook = ConfigHook::new(env!("CARGO_PKG_NAME").to_string());
-        repo.add_hook(hook);
-        self.add_repo(repo);
+        remote.add_hook(hook);
+        self.add_repo(Repo::Remote(remote));
     }
 }
 

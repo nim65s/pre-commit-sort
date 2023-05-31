@@ -1,34 +1,25 @@
-/// ref. <https://pre-commit.com/#pre-commit-configyaml---repos>
-use crate::ConfigHook;
+use crate::{Local, Remote};
 
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd, Clone)]
-pub struct Repo {
-    repo: String,
-    rev: String,
-    hooks: Vec<ConfigHook>,
+pub enum Repo {
+    Remote(Remote),
+    Local(Local),
 }
 
 impl Repo {
-    #[must_use]
-    pub const fn new(repo: String, rev: String) -> Self {
-        Self {
-            repo,
-            rev,
-            hooks: Vec::new(),
+    pub fn sort(&mut self) {
+        match self {
+            Self::Remote(repo) => repo.sort(),
+            Self::Local(repo) => repo.sort(),
         }
     }
 
-    pub fn add_hook(&mut self, hook: ConfigHook) {
-        self.hooks.push(hook);
-    }
-
-    pub fn sort(&mut self) {
-        self.hooks.sort();
-        self.hooks.dedup();
-    }
-
     pub fn equal_but_rev(&self, other: &Repo) -> bool {
-        self.repo == other.repo && self.hooks == other.hooks
+        match (self, other) {
+            (Self::Remote(a), Self::Remote(b)) => a.equal_but_rev(b),
+            (Self::Local(a), Self::Local(b)) => a == b,
+            _ => false,
+        }
     }
 }
