@@ -1,0 +1,24 @@
+/// ref. <https://pre-commit.com/#repository-local-hooks>
+use crate::DeclareHook;
+
+#[serde_with::skip_serializing_none]
+#[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd, Clone)]
+pub struct Local {
+    hooks: Vec<DeclareHook>,
+}
+
+impl Local {
+    #[must_use]
+    pub const fn new() -> Self {
+        Self { hooks: Vec::new() }
+    }
+
+    pub fn add_hook(&mut self, hook: DeclareHook) {
+        self.hooks.push(hook);
+    }
+
+    pub fn sort(&mut self) {
+        self.hooks.sort();
+        self.hooks.dedup();
+    }
+}

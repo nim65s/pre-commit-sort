@@ -2,7 +2,7 @@
 
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd, Clone)]
-pub struct Hook {
+pub struct ConfigHook {
     id: String,
     alias: Option<String>,
     name: Option<String>,
@@ -20,7 +20,7 @@ pub struct Hook {
     log_file: Option<String>,
 }
 
-impl Hook {
+impl ConfigHook {
     #[must_use]
     pub const fn new(id: String) -> Self {
         Self {

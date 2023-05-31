@@ -1,5 +1,5 @@
 use indoc::{formatdoc, indoc};
-use pre_commit_sort::{Hook, PreCommitConfig, Repo};
+use pre_commit_sort::{ConfigHook, PreCommitConfig, Repo};
 
 #[test]
 fn test_serialize() {
@@ -11,7 +11,7 @@ fn test_serialize() {
         "v2.3.0".to_string(),
     );
     for hook in ["check-yaml", "end-of-file-fixer", "trailing-whitespaces"] {
-        pre_commit.add_hook(Hook::new(hook.to_string()));
+        pre_commit.add_hook(ConfigHook::new(hook.to_string()));
     }
     example.add_repo(pre_commit);
 
@@ -19,7 +19,7 @@ fn test_serialize() {
         "https://github.com/psf/black".to_string(),
         "22.10.0".to_string(),
     );
-    black.add_hook(Hook::new("black".to_string()));
+    black.add_hook(ConfigHook::new("black".to_string()));
     example.add_repo(black);
 
     let yaml = indoc! {"
@@ -47,7 +47,7 @@ fn test_sort() {
         "https://github.com/psf/black".to_string(),
         "22.10.0".to_string(),
     );
-    black.add_hook(Hook::new("black".to_string()));
+    black.add_hook(ConfigHook::new("black".to_string()));
     example.add_repo(black);
 
     let mut pre_commit = Repo::new(
@@ -55,7 +55,7 @@ fn test_sort() {
         "v2.3.0".to_string(),
     );
     for hook in ["end-of-file-fixer", "check-yaml", "trailing-whitespaces"] {
-        pre_commit.add_hook(Hook::new(hook.to_string()));
+        pre_commit.add_hook(ConfigHook::new(hook.to_string()));
     }
     example.add_repo(pre_commit);
 
@@ -87,7 +87,7 @@ fn test_deserialize() {
         "v2.3.0".to_string(),
     );
     for hook in ["check-yaml", "end-of-file-fixer", "trailing-whitespaces"] {
-        pre_commit.add_hook(Hook::new(hook.to_string()));
+        pre_commit.add_hook(ConfigHook::new(hook.to_string()));
     }
     example.add_repo(pre_commit);
 
@@ -95,7 +95,7 @@ fn test_deserialize() {
         "https://github.com/psf/black".to_string(),
         "22.10.0".to_string(),
     );
-    black.add_hook(Hook::new("black".to_string()));
+    black.add_hook(ConfigHook::new("black".to_string()));
     example.add_repo(black);
 
     let yaml = indoc! {"
@@ -123,7 +123,7 @@ fn test_dedup() {
         "v2.3.0".to_string(),
     );
     for hook in ["check-yaml", "end-of-file-fixer", "trailing-whitespaces"] {
-        pre_commit.add_hook(Hook::new(hook.to_string()));
+        pre_commit.add_hook(ConfigHook::new(hook.to_string()));
     }
     example.add_repo(pre_commit);
 
@@ -131,7 +131,7 @@ fn test_dedup() {
         "https://github.com/psf/black".to_string(),
         "22.10.0".to_string(),
     );
-    black.add_hook(Hook::new("black".to_string()));
+    black.add_hook(ConfigHook::new("black".to_string()));
     // Add black twice. The second should be removed after .sort()
     example.add_repo(black.clone());
     example.add_repo(black);
@@ -163,7 +163,7 @@ fn test_install() {
         "v2.3.0".to_string(),
     );
     for hook in ["check-yaml", "end-of-file-fixer", "trailing-whitespaces"] {
-        pre_commit.add_hook(Hook::new(hook.to_string()));
+        pre_commit.add_hook(ConfigHook::new(hook.to_string()));
     }
     example.add_repo(pre_commit);
 
@@ -171,7 +171,7 @@ fn test_install() {
         "https://github.com/psf/black".to_string(),
         "22.10.0".to_string(),
     );
-    black.add_hook(Hook::new("black".to_string()));
+    black.add_hook(ConfigHook::new("black".to_string()));
     example.add_repo(black);
 
     // This should add pre-commit-sort to the repos list
@@ -209,7 +209,7 @@ fn test_dedup_rev() {
         "v2.3.0".to_string(),
     );
     for hook in ["check-yaml", "end-of-file-fixer", "trailing-whitespaces"] {
-        pre_commit.add_hook(Hook::new(hook.to_string()));
+        pre_commit.add_hook(ConfigHook::new(hook.to_string()));
     }
     example.add_repo(pre_commit);
 
@@ -217,7 +217,7 @@ fn test_dedup_rev() {
         "https://github.com/psf/black".to_string(),
         "22.10.0".to_string(),
     );
-    black.add_hook(Hook::new("black".to_string()));
+    black.add_hook(ConfigHook::new("black".to_string()));
     example.add_repo(black);
 
     // Add another black, but on a older version
@@ -226,7 +226,7 @@ fn test_dedup_rev() {
         "https://github.com/psf/black".to_string(),
         "20.1.0".to_string(),
     );
-    black.add_hook(Hook::new("black".to_string()));
+    black.add_hook(ConfigHook::new("black".to_string()));
     example.add_repo(black);
 
     let yaml = indoc! {"
@@ -245,4 +245,30 @@ fn test_dedup_rev() {
     assert_ne!(serde_yaml::to_string(&example).unwrap(), yaml);
     example.sort();
     assert_eq!(serde_yaml::to_string(&example).unwrap(), yaml);
+}
+
+#[test]
+fn test_local() {
+    // local repos don't have rev
+    let yaml = indoc! {"
+        repos:
+        - repo: https://github.com/pre-commit/pre-commit-hooks
+          rev: v2.3.0
+          hooks:
+          - id: check-yaml
+          - id: end-of-file-fixer
+          - id: trailing-whitespaces
+        - repo: https://github.com/psf/black
+          rev: 22.10.0
+          hooks:
+          - id: black
+        - repo: local
+          hooks:
+          - id: just-all
+            name: just-all
+            entry: just all
+            language: rust
+            pass_filenames: false
+        "};
+    let _: PreCommitConfig = serde_yaml::from_str(yaml).unwrap();
 }

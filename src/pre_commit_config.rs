@@ -1,15 +1,13 @@
 /// ref. <https://pre-commit.com/#pre-commit-configyaml---top-level>
 use std::collections::BTreeMap;
-use std::fs::File;
 
-use crate::{Hook, Repo, Result, CI};
-
-pub static PRE_COMMIT_CONFIG_PATH: &str = ".pre-commit-config.yaml";
+use crate::{ConfigHook, Local, PreCommit, Repo, CI};
 
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd, Clone)]
 pub struct PreCommitConfig {
     ci: Option<CI>,
+    local: Option<Local>,
     repos: Vec<Repo>,
     default_install_hook_types: Option<Vec<String>>,
     default_language_version: Option<BTreeMap<String, String>>,
@@ -25,6 +23,7 @@ impl PreCommitConfig {
     pub const fn new() -> Self {
         Self {
             ci: None,
+            local: None,
             repos: Vec::new(),
             default_install_hook_types: None,
             default_language_version: None,
@@ -34,16 +33,6 @@ impl PreCommitConfig {
             fail_fast: None,
             minimum_pre_commit_version: None,
         }
-    }
-
-    pub fn read() -> Result<Self> {
-        let input = File::open(PRE_COMMIT_CONFIG_PATH)?;
-        Ok(serde_yaml::from_reader(input)?)
-    }
-
-    pub fn write(&self) -> Result<()> {
-        let output = File::create(PRE_COMMIT_CONFIG_PATH)?;
-        Ok(serde_yaml::to_writer(output, &self)?)
     }
 
     pub fn add_repo(&mut self, repo: Repo) {
@@ -83,9 +72,18 @@ impl PreCommitConfig {
             env!("CARGO_PKG_REPOSITORY").to_string(),
             format!("v{VERSION}"),
         );
-        let hook = Hook::new(env!("CARGO_PKG_NAME").to_string());
+        let hook = ConfigHook::new(env!("CARGO_PKG_NAME").to_string());
         repo.add_hook(hook);
         self.add_repo(repo);
+    }
+}
+
+impl PreCommit for PreCommitConfig {
+    const PATH: &'static str = ".pre-commit-config.yaml";
+
+    fn process(&mut self) {
+        self.install();
+        self.sort();
     }
 }
 

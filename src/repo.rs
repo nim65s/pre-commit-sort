@@ -1,12 +1,12 @@
 /// ref. <https://pre-commit.com/#pre-commit-configyaml---repos>
-use crate::Hook;
+use crate::ConfigHook;
 
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd, Clone)]
 pub struct Repo {
     repo: String,
     rev: String,
-    hooks: Vec<Hook>,
+    hooks: Vec<ConfigHook>,
 }
 
 impl Repo {
@@ -19,7 +19,7 @@ impl Repo {
         }
     }
 
-    pub fn add_hook(&mut self, hook: Hook) {
+    pub fn add_hook(&mut self, hook: ConfigHook) {
         self.hooks.push(hook);
     }
 
