@@ -55,6 +55,7 @@ impl PreCommitConfig {
     }
 
     fn find_first_rev_dup(&self) -> Option<usize> {
+        // Todo: work only on Remote
         for (i, w) in self.repos.windows(2).enumerate() {
             if w[0].equal_but_rev(&w[1]) {
                 return Some(i);

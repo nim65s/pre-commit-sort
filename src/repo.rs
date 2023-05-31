@@ -7,6 +7,7 @@ pub enum Repo {
     Local(Local),
 }
 
+// TODO: remove that
 impl Repo {
     pub fn sort(&mut self) {
         match self {
