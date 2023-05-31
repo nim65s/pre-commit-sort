@@ -2,6 +2,7 @@ use crate::{Local, Remote};
 
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd, Clone)]
+#[serde(untagged)]
 pub enum Repo {
     Remote(Remote),
     Local(Local),
