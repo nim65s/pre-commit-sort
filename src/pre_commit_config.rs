@@ -1,7 +1,7 @@
 /// ref. <https://pre-commit.com/#pre-commit-configyaml---top-level>
 use std::collections::BTreeMap;
 
-use crate::{ConfigHook, Local, PreCommit, Remote, Repo, CI, Meta};
+use crate::{ConfigHook, Local, Meta, PreCommit, Remote, Repo, CI};
 
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd, Clone)]
