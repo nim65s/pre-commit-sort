@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - handle "local" & "meta" repos
 - :warning: API changed: `Repo` was renamed `Remote`, and a `Repo` enum with Repo::Remote(Remote)` was added.
+- pre-commit-sort hook installation is now optional
 
 ## [0.0.5] - 2023-05-14
 

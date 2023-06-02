@@ -13,7 +13,7 @@ Rust validation, sort, deduplication and formatting for `.pre-commit-config.yaml
   - id: pre-commit-sort
 ```
 
-(or directly run the `pre-commit-sort` command if you already have it somewhere)
+(or directly run the `pre-commit-sort -i` command if you already have it somewhere)
 
 ## Installation
 

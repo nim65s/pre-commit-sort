@@ -88,8 +88,10 @@ impl PreCommitConfig {
 impl PreCommit for PreCommitConfig {
     const PATH: &'static str = ".pre-commit-config.yaml";
 
-    fn process(&mut self) {
-        self.install();
+    fn process(&mut self, install: bool) {
+        if install {
+            self.install();
+        }
         self.sort();
     }
 }
