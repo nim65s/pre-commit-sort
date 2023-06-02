@@ -1,4 +1,4 @@
-use crate::{Local, Remote};
+use crate::{Local, Remote, Meta};
 
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd, Clone)]
@@ -6,6 +6,7 @@ use crate::{Local, Remote};
 pub enum Repo {
     Remote(Remote),
     Local(Local),
+    Meta(Meta),
 }
 
 // TODO: remove that
@@ -14,6 +15,7 @@ impl Repo {
         match self {
             Self::Remote(repo) => repo.sort(),
             Self::Local(repo) => repo.sort(),
+            Self::Meta(repo) => repo.sort(),
         }
     }
 
@@ -21,6 +23,7 @@ impl Repo {
         match (self, other) {
             (Self::Remote(a), Self::Remote(b)) => a.equal_but_rev(b),
             (Self::Local(a), Self::Local(b)) => a == b,
+            (Self::Meta(a), Self::Meta(b)) => a == b,
             _ => false,
         }
     }

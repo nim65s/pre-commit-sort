@@ -8,7 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
-- handle "local" repo
+- handle "local" & "meta" repos
+- :warning: API changed: `Repo` was renamed `Remote`, and a `Repo` enum with Repo::Remote(Remote)` was added.
 
 ## [0.0.5] - 2023-05-14
 

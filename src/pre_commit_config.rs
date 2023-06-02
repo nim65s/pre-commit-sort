@@ -1,7 +1,7 @@
 /// ref. <https://pre-commit.com/#pre-commit-configyaml---top-level>
 use std::collections::BTreeMap;
 
-use crate::{ConfigHook, Local, PreCommit, Remote, Repo, CI};
+use crate::{ConfigHook, Local, PreCommit, Remote, Repo, CI, Meta};
 
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd, Clone)]
@@ -39,6 +39,10 @@ impl PreCommitConfig {
 
     pub fn add_local(&mut self, local: Local) {
         self.repos.push(Repo::Local(local));
+    }
+
+    pub fn add_meta(&mut self, meta: Meta) {
+        self.repos.push(Repo::Meta(meta));
     }
 
     /// Sort and deduplicate repos and their hooks
