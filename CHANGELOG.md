@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+## [0.1.0] - 2023-06-02
+
 - handle "local" & "meta" repos
 - :warning: API changed: `Repo` was renamed `Remote`, and a `Repo` enum with Repo::Remote(Remote)` was added.
 - pre-commit-sort hook installation is now optional
@@ -27,7 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v0.0.1] - 2023-05-14
 
 <!-- next-url -->
-[Unreleased]: https://github.com/assert-rs/predicates-rs/compare/v0.0.5...HEAD
+[Unreleased]: https://github.com/assert-rs/predicates-rs/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/assert-rs/predicates-rs/compare/v0.0.5...v0.1.0
 [0.0.5]: https://github.com/assert-rs/predicates-rs/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/nim65s/pre-commit-sort/compare/v0.0.2...v0.0.4
 [v0.0.2]: https://github.com/nim65s/pre-commit-sort/compare/v0.0.1...v0.0.2

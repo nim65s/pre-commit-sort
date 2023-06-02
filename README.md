@@ -8,7 +8,7 @@ Rust validation, sort, deduplication and formatting for `.pre-commit-config.yaml
 
 ```yaml
 - repo: https://github.com/nim65s/pre-commit-sort
-  rev: v0.0.5
+  rev: v0.1.0
   hooks:
   - id: pre-commit-sort
 ```
