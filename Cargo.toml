@@ -16,7 +16,7 @@ serde_yaml = "0.9.21"
 thiserror = "1.0.40"
 
 [dev-dependencies]
-indoc = "2.0.1"
+indoc = "2.0.3"
 
 [package.metadata.release]
 pre-release-replacements = [
