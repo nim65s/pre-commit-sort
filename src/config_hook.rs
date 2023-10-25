@@ -1,4 +1,4 @@
-/// ref. <https://pre-commit.com/#pre-commit-configyaml---hooks>
+//! ref. <https://pre-commit.com/#pre-commit-configyaml---hooks>
 
 #[serde_with::skip_serializing_none]
 #[derive(serde::Serialize, serde::Deserialize, Debug, Eq, Ord, PartialEq, PartialOrd, Clone)]

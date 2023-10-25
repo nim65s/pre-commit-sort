@@ -28,7 +28,8 @@ impl Remote {
         self.hooks.dedup();
     }
 
-    pub fn equal_but_rev(&self, other: &Remote) -> bool {
+    #[must_use]
+    pub fn equal_but_rev(&self, other: &Self) -> bool {
         self.repo == other.repo && self.hooks == other.hooks
     }
 }

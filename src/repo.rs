@@ -19,7 +19,8 @@ impl Repo {
         }
     }
 
-    pub fn equal_but_rev(&self, other: &Repo) -> bool {
+    #[must_use]
+    pub fn equal_but_rev(&self, other: &Self) -> bool {
         match (self, other) {
             (Self::Remote(a), Self::Remote(b)) => a.equal_but_rev(b),
             (Self::Local(a), Self::Local(b)) => a == b,
