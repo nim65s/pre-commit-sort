@@ -11,7 +11,7 @@ repository = "https://github.com/nim65s/pre-commit-sort"
 [dependencies]
 anyhow = "1.0.81"
 serde = { version = "1.0.193", features = ["derive"] }
-serde_with = "3.4.0"
+serde_with = "3.7.0"
 serde_yaml = "0.9.25"
 thiserror = "1.0.53"
 
