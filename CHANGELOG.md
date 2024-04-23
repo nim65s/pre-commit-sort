@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] - ReleaseDate
 
 - improve README
+- :warning: API changed: ci / autoupdate_schedule is now an Enum for validation
 
 ## [0.1.0] - 2023-06-02
 
