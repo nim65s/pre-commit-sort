@@ -1,5 +1,5 @@
 {
-  description = "Description for the project";
+  description = "Sort pre-commit files.";
 
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
