@@ -22,7 +22,10 @@
         { pkgs, self', ...  }:
         {
           devShells.default = pkgs.mkShell { inputsFrom = [ self'.packages.default ]; };
-          packages.default = pkgs.callPackage ./. { };
+          packages = {
+            default = self'.packages.pre-commit-sort;
+            pre-commit-sort = pkgs.callPackage ./. { };
+          };
         };
     };
 }
