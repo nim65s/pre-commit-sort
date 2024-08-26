@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  tests:
+  nix:
     runs-on: "${{ matrix.os }}-latest"
     strategy:
       matrix:
