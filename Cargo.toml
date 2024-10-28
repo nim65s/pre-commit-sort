@@ -13,7 +13,7 @@ anyhow = "1.0.90"
 serde = { version = "1.0.210", features = ["derive"] }
 serde_with = "3.11.0"
 serde_yaml = "0.9.34"
-thiserror = "1.0.64"
+thiserror = "1.0.65"
 
 [dev-dependencies]
 indoc = "2.0.5"
