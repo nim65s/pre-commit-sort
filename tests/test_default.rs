@@ -364,11 +364,9 @@ fn test_meta() {
 }
 
 #[test]
-fn test_stages_array_parsing() {
-    // This test demonstrates a bug where the `stages` field fails to parse
-    // when using array syntax (which is the valid pre-commit format).
-    // The `stages` field in ConfigHook is typed as Option<String> but should
-    // be Option<Vec<String>> to handle array values like `stages: [commit-msg]`.
+fn test_stages_array_parsing_flow() {
+    // This test verifies that the `stages` field parses correctly
+    // when using flow sequence (inline array) syntax.
     //
     // See: https://pre-commit.com/#pre-commit-configyaml---hooks
     // The `stages` field should accept an array of stage names.
@@ -381,12 +379,183 @@ fn test_stages_array_parsing() {
             stages: [commit-msg]
         "};
 
-    // This should parse successfully, but currently fails because
-    // `stages` is typed as Option<String> instead of Option<Vec<String>>
     let result: Result<PreCommitConfig, _> = serde_yaml::from_str(yaml);
     assert!(
         result.is_ok(),
-        "Failed to parse valid pre-commit config with stages array: {:?}",
+        "Failed to parse valid pre-commit config with stages array (flow): {:?}",
+        result.err()
+    );
+}
+
+#[test]
+fn test_stages_array_parsing_block() {
+    // This test verifies that the `stages` field parses correctly
+    // when using block sequence (multi-line) syntax.
+    // This is the format commonly used in real pre-commit config files.
+    let yaml = indoc! {"
+        repos:
+        - repo: https://github.com/crate-ci/committed
+          rev: v1.1.8
+          hooks:
+          - id: committed
+            stages:
+            - commit-msg
+        "};
+
+    let result: Result<PreCommitConfig, _> = serde_yaml::from_str(yaml);
+    assert!(
+        result.is_ok(),
+        "Failed to parse valid pre-commit config with stages array (block): {:?}",
+        result.err()
+    );
+}
+
+#[test]
+fn test_types_array_parsing_flow() {
+    // This test demonstrates a bug where the `types` field fails to parse
+    // when using flow sequence (inline array) syntax.
+    // The `types` field in ConfigHook is typed as Option<String> but should
+    // be Option<Vec<String>> to handle array values like `types: [python]`.
+    //
+    // See: https://pre-commit.com/#pre-commit-configyaml---hooks
+    // The `types` field should accept an array of file types.
+    let yaml = indoc! {"
+        repos:
+        - repo: https://github.com/psf/black
+          rev: 23.1.0
+          hooks:
+          - id: black
+            types: [python]
+        "};
+
+    // This should parse successfully, but currently fails because
+    // `types` is typed as Option<String> instead of Option<Vec<String>>
+    let result: Result<PreCommitConfig, _> = serde_yaml::from_str(yaml);
+    assert!(
+        result.is_ok(),
+        "Failed to parse valid pre-commit config with types array (flow): {:?}",
+        result.err()
+    );
+}
+
+#[test]
+fn test_types_array_parsing_block() {
+    // This test uses block sequence (multi-line) syntax for the `types` field.
+    // This is the format commonly used in real pre-commit config files.
+    let yaml = indoc! {"
+        repos:
+        - repo: https://github.com/psf/black
+          rev: 23.1.0
+          hooks:
+          - id: black
+            types:
+            - python
+        "};
+
+    let result: Result<PreCommitConfig, _> = serde_yaml::from_str(yaml);
+    assert!(
+        result.is_ok(),
+        "Failed to parse valid pre-commit config with types array (block): {:?}",
+        result.err()
+    );
+}
+
+#[test]
+fn test_types_or_array_parsing_flow() {
+    // This test demonstrates a bug where the `types_or` field fails to parse
+    // when using flow sequence (inline array) syntax.
+    // The `types_or` field in ConfigHook is typed as Option<String> but should
+    // be Option<Vec<String>> to handle array values like `types_or: [python, pyi]`.
+    //
+    // See: https://pre-commit.com/#pre-commit-configyaml---hooks
+    // The `types_or` field should accept an array of file types (OR logic).
+    let yaml = indoc! {"
+        repos:
+        - repo: https://github.com/psf/black
+          rev: 23.1.0
+          hooks:
+          - id: black
+            types_or: [python, pyi]
+        "};
+
+    // This should parse successfully, but currently fails because
+    // `types_or` is typed as Option<String> instead of Option<Vec<String>>
+    let result: Result<PreCommitConfig, _> = serde_yaml::from_str(yaml);
+    assert!(
+        result.is_ok(),
+        "Failed to parse valid pre-commit config with types_or array (flow): {:?}",
+        result.err()
+    );
+}
+
+#[test]
+fn test_types_or_array_parsing_block() {
+    // This test uses block sequence (multi-line) syntax for the `types_or` field.
+    let yaml = indoc! {"
+        repos:
+        - repo: https://github.com/psf/black
+          rev: 23.1.0
+          hooks:
+          - id: black
+            types_or:
+            - python
+            - pyi
+        "};
+
+    let result: Result<PreCommitConfig, _> = serde_yaml::from_str(yaml);
+    assert!(
+        result.is_ok(),
+        "Failed to parse valid pre-commit config with types_or array (block): {:?}",
+        result.err()
+    );
+}
+
+#[test]
+fn test_exclude_types_array_parsing_flow() {
+    // This test demonstrates a bug where the `exclude_types` field fails to parse
+    // when using flow sequence (inline array) syntax.
+    // The `exclude_types` field in ConfigHook is typed as Option<String> but should
+    // be Option<Vec<String>> to handle array values like `exclude_types: [markdown]`.
+    //
+    // See: https://pre-commit.com/#pre-commit-configyaml---hooks
+    // The `exclude_types` field should accept an array of file types to exclude.
+    let yaml = indoc! {"
+        repos:
+        - repo: https://github.com/pre-commit/pre-commit-hooks
+          rev: v4.4.0
+          hooks:
+          - id: trailing-whitespace
+            exclude_types: [markdown, rst]
+        "};
+
+    // This should parse successfully, but currently fails because
+    // `exclude_types` is typed as Option<String> instead of Option<Vec<String>>
+    let result: Result<PreCommitConfig, _> = serde_yaml::from_str(yaml);
+    assert!(
+        result.is_ok(),
+        "Failed to parse valid pre-commit config with exclude_types array (flow): {:?}",
+        result.err()
+    );
+}
+
+#[test]
+fn test_exclude_types_array_parsing_block() {
+    // This test uses block sequence (multi-line) syntax for the `exclude_types` field.
+    let yaml = indoc! {"
+        repos:
+        - repo: https://github.com/pre-commit/pre-commit-hooks
+          rev: v4.4.0
+          hooks:
+          - id: trailing-whitespace
+            exclude_types:
+            - markdown
+            - rst
+        "};
+
+    let result: Result<PreCommitConfig, _> = serde_yaml::from_str(yaml);
+    assert!(
+        result.is_ok(),
+        "Failed to parse valid pre-commit config with exclude_types array (block): {:?}",
         result.err()
     );
 }
