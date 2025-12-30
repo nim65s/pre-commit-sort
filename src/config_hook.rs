@@ -13,7 +13,7 @@ pub struct ConfigHook {
     types_or: Option<String>,
     exclude_types: Option<String>,
     args: Option<Vec<String>>,
-    stages: Option<String>,
+    stages: Option<Vec<String>>,
     additional_dependencies: Option<Vec<String>>,
     always_run: Option<bool>,
     verbose: Option<bool>,
