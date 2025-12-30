@@ -362,3 +362,31 @@ fn test_meta() {
     assert_eq!(serde_yaml::to_string(&example).unwrap(), yaml);
     assert_eq!(example, serde_yaml::from_str(yaml).unwrap());
 }
+
+#[test]
+fn test_stages_array_parsing() {
+    // This test demonstrates a bug where the `stages` field fails to parse
+    // when using array syntax (which is the valid pre-commit format).
+    // The `stages` field in ConfigHook is typed as Option<String> but should
+    // be Option<Vec<String>> to handle array values like `stages: [commit-msg]`.
+    //
+    // See: https://pre-commit.com/#pre-commit-configyaml---hooks
+    // The `stages` field should accept an array of stage names.
+    let yaml = indoc! {"
+        repos:
+        - repo: https://github.com/crate-ci/committed
+          rev: v1.1.8
+          hooks:
+          - id: committed
+            stages: [commit-msg]
+        "};
+
+    // This should parse successfully, but currently fails because
+    // `stages` is typed as Option<String> instead of Option<Vec<String>>
+    let result: Result<PreCommitConfig, _> = serde_yaml::from_str(yaml);
+    assert!(
+        result.is_ok(),
+        "Failed to parse valid pre-commit config with stages array: {:?}",
+        result.err()
+    );
+}
