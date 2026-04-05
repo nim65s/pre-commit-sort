@@ -4,7 +4,7 @@ pub enum Error {
     IO(#[from] std::io::Error),
 
     #[error("serde yaml error: {0}")]
-    SerdeYaml(#[from] serde_yaml::Error),
+    SerdeYaml(#[from] yaml_serde::Error),
 }
 
 pub type Result<T> = core::result::Result<T, Error>;
