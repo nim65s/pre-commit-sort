@@ -5,7 +5,7 @@
 
 rustPlatform.buildRustPackage {
   pname = "pre-commit-sort";
-  version = "0.4.0";
+  version = "1.0.0";
 
   src = lib.fileset.toSource {
     root = ./.;

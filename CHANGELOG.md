@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+## [1.0.0] - 2026-04-05
+
 - fix: stages, types, types_or, and exclude_types are lists of strings, thanks @pdecat in https://github.com/nim65s/pre-commit-sort/pull/137
 - remove cachix (all my quota is used elsewhere)
 - serde_yaml -> yaml_serde
@@ -44,7 +46,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v0.0.1] - 2023-05-14
 
 <!-- next-url -->
-[Unreleased]: https://github.com/nim65s/pre-commit-sort/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/nim65s/pre-commit-sort/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/nim65s/pre-commit-sort/compare/v0.4.0...v1.0.0
 [0.4.0]: https://github.com/nim65s/pre-commit-sort/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/nim65s/pre-commit-sort/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/nim65s/pre-commit-sort/compare/v0.1.0...v0.2.0
