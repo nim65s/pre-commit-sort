@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+- fix: stages, types, types_or, and exclude_types are lists of strings, thanks @pdecat in https://github.com/nim65s/pre-commit-sort/pull/137
+- remove cachix (all my quota is used elsewhere)
+
 ## [0.4.0] - 2024-08-21
 
 ## [0.3.0] - 2024-08-21
