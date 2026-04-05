@@ -35,7 +35,7 @@ fn test_serialize() {
           hooks:
           - id: black
         "};
-    assert_eq!(serde_yaml::to_string(&example).unwrap(), yaml);
+    assert_eq!(yaml_serde::to_string(&example).unwrap(), yaml);
 }
 
 #[test]
@@ -72,9 +72,9 @@ fn test_sort() {
           hooks:
           - id: black
         "};
-    assert_ne!(serde_yaml::to_string(&example).unwrap(), yaml);
+    assert_ne!(yaml_serde::to_string(&example).unwrap(), yaml);
     example.sort();
-    assert_eq!(serde_yaml::to_string(&example).unwrap(), yaml);
+    assert_eq!(yaml_serde::to_string(&example).unwrap(), yaml);
 }
 
 #[test]
@@ -111,7 +111,7 @@ fn test_deserialize() {
           hooks:
           - id: black
         "};
-    assert_eq!(example, serde_yaml::from_str(yaml).unwrap());
+    assert_eq!(example, yaml_serde::from_str(yaml).unwrap());
 }
 
 #[test]
@@ -149,9 +149,9 @@ fn test_dedup() {
           hooks:
           - id: black
         "};
-    assert_ne!(serde_yaml::to_string(&example).unwrap(), yaml);
+    assert_ne!(yaml_serde::to_string(&example).unwrap(), yaml);
     example.sort();
-    assert_eq!(serde_yaml::to_string(&example).unwrap(), yaml);
+    assert_eq!(yaml_serde::to_string(&example).unwrap(), yaml);
 }
 
 #[test]
@@ -197,7 +197,7 @@ fn test_install() {
           hooks:
           - id: {NAME}
         "};
-    assert_eq!(serde_yaml::to_string(&example).unwrap(), yaml);
+    assert_eq!(yaml_serde::to_string(&example).unwrap(), yaml);
 }
 
 #[test]
@@ -242,9 +242,9 @@ fn test_dedup_rev() {
           hooks:
           - id: black
         "};
-    assert_ne!(serde_yaml::to_string(&example).unwrap(), yaml);
+    assert_ne!(yaml_serde::to_string(&example).unwrap(), yaml);
     example.sort();
-    assert_eq!(serde_yaml::to_string(&example).unwrap(), yaml);
+    assert_eq!(yaml_serde::to_string(&example).unwrap(), yaml);
 }
 
 #[test]
@@ -297,8 +297,8 @@ fn test_local() {
     local.add_hook(hook);
     example.add_local(local);
 
-    assert_eq!(serde_yaml::to_string(&example).unwrap(), yaml);
-    assert_eq!(example, serde_yaml::from_str(yaml).unwrap());
+    assert_eq!(yaml_serde::to_string(&example).unwrap(), yaml);
+    assert_eq!(example, yaml_serde::from_str(yaml).unwrap());
 }
 
 #[test]
@@ -359,8 +359,8 @@ fn test_meta() {
     meta.add_hook(hook);
     example.add_meta(meta);
 
-    assert_eq!(serde_yaml::to_string(&example).unwrap(), yaml);
-    assert_eq!(example, serde_yaml::from_str(yaml).unwrap());
+    assert_eq!(yaml_serde::to_string(&example).unwrap(), yaml);
+    assert_eq!(example, yaml_serde::from_str(yaml).unwrap());
 }
 
 #[test]
@@ -379,7 +379,7 @@ fn test_stages_array_parsing_flow() {
             stages: [commit-msg]
         "};
 
-    let result: Result<PreCommitConfig, _> = serde_yaml::from_str(yaml);
+    let result: Result<PreCommitConfig, _> = yaml_serde::from_str(yaml);
     assert!(
         result.is_ok(),
         "Failed to parse valid pre-commit config with stages array (flow): {:?}",
@@ -402,7 +402,7 @@ fn test_stages_array_parsing_block() {
             - commit-msg
         "};
 
-    let result: Result<PreCommitConfig, _> = serde_yaml::from_str(yaml);
+    let result: Result<PreCommitConfig, _> = yaml_serde::from_str(yaml);
     assert!(
         result.is_ok(),
         "Failed to parse valid pre-commit config with stages array (block): {:?}",
@@ -430,7 +430,7 @@ fn test_types_array_parsing_flow() {
 
     // This should parse successfully, but currently fails because
     // `types` is typed as Option<String> instead of Option<Vec<String>>
-    let result: Result<PreCommitConfig, _> = serde_yaml::from_str(yaml);
+    let result: Result<PreCommitConfig, _> = yaml_serde::from_str(yaml);
     assert!(
         result.is_ok(),
         "Failed to parse valid pre-commit config with types array (flow): {:?}",
@@ -452,7 +452,7 @@ fn test_types_array_parsing_block() {
             - python
         "};
 
-    let result: Result<PreCommitConfig, _> = serde_yaml::from_str(yaml);
+    let result: Result<PreCommitConfig, _> = yaml_serde::from_str(yaml);
     assert!(
         result.is_ok(),
         "Failed to parse valid pre-commit config with types array (block): {:?}",
@@ -480,7 +480,7 @@ fn test_types_or_array_parsing_flow() {
 
     // This should parse successfully, but currently fails because
     // `types_or` is typed as Option<String> instead of Option<Vec<String>>
-    let result: Result<PreCommitConfig, _> = serde_yaml::from_str(yaml);
+    let result: Result<PreCommitConfig, _> = yaml_serde::from_str(yaml);
     assert!(
         result.is_ok(),
         "Failed to parse valid pre-commit config with types_or array (flow): {:?}",
@@ -502,7 +502,7 @@ fn test_types_or_array_parsing_block() {
             - pyi
         "};
 
-    let result: Result<PreCommitConfig, _> = serde_yaml::from_str(yaml);
+    let result: Result<PreCommitConfig, _> = yaml_serde::from_str(yaml);
     assert!(
         result.is_ok(),
         "Failed to parse valid pre-commit config with types_or array (block): {:?}",
@@ -530,7 +530,7 @@ fn test_exclude_types_array_parsing_flow() {
 
     // This should parse successfully, but currently fails because
     // `exclude_types` is typed as Option<String> instead of Option<Vec<String>>
-    let result: Result<PreCommitConfig, _> = serde_yaml::from_str(yaml);
+    let result: Result<PreCommitConfig, _> = yaml_serde::from_str(yaml);
     assert!(
         result.is_ok(),
         "Failed to parse valid pre-commit config with exclude_types array (flow): {:?}",
@@ -552,7 +552,7 @@ fn test_exclude_types_array_parsing_block() {
             - rst
         "};
 
-    let result: Result<PreCommitConfig, _> = serde_yaml::from_str(yaml);
+    let result: Result<PreCommitConfig, _> = yaml_serde::from_str(yaml);
     assert!(
         result.is_ok(),
         "Failed to parse valid pre-commit config with exclude_types array (block): {:?}",
